@@ -39,7 +39,16 @@ export async function POST(request: NextRequest) {
       webp: 'image/webp',
     };
 
-    return new NextResponse(result.data as Buffer, {
+    // Convert Buffer to Uint8Array for NextResponse
+    const imageData = Buffer.isBuffer(result.data)
+      ? new Uint8Array(result.data)
+      : result.data instanceof ArrayBuffer
+      ? new Uint8Array(result.data)
+      : result.data instanceof Uint8Array
+      ? result.data
+      : new Uint8Array(Buffer.from(result.data as any));
+
+    return new NextResponse(imageData, {
       headers: {
         'Content-Type': mimeTypes[format] || 'image/jpeg',
         'Content-Disposition': `attachment; filename="processed.${format}"`,
