@@ -39,16 +39,14 @@ export async function POST(request: NextRequest) {
       webp: 'image/webp',
     };
 
-    // Convert Buffer to Uint8Array for NextResponse
-    const imageData = Buffer.isBuffer(result.data)
-      ? new Uint8Array(result.data)
-      : result.data instanceof ArrayBuffer
-      ? new Uint8Array(result.data)
-      : result.data instanceof Uint8Array
+    // Convert to Uint8Array for Response
+    const buffer = Buffer.isBuffer(result.data)
       ? result.data
-      : new Uint8Array(Buffer.from(result.data as any));
+      : Buffer.from(result.data as ArrayBuffer);
 
-    return new NextResponse(imageData, {
+    const uint8Array = new Uint8Array(buffer.buffer, buffer.byteOffset, buffer.byteLength);
+
+    return new Response(uint8Array as unknown as BodyInit, {
       headers: {
         'Content-Type': mimeTypes[format] || 'image/jpeg',
         'Content-Disposition': `attachment; filename="processed.${format}"`,

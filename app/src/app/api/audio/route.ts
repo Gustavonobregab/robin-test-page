@@ -117,7 +117,9 @@ export async function POST(request: NextRequest) {
     );
     const wavBuffer = float32ToWav(resultFloat32, result.details.sampleRate);
 
-    return new NextResponse(new Uint8Array(wavBuffer), {
+    const audioUint8 = new Uint8Array(wavBuffer.buffer, wavBuffer.byteOffset, wavBuffer.byteLength);
+
+    return new Response(audioUint8 as unknown as BodyInit, {
       headers: {
         'Content-Type': 'audio/wav',
         'Content-Disposition': 'attachment; filename="processed.wav"',
