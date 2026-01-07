@@ -1,0 +1,17 @@
+{
+  "permissions": {
+    "allow": [
+      "WebFetch(domain:www.npmjs.com)",
+      "Bash(mkdir:*)",
+      "Bash(npm init:*)",
+      "Bash(npm i:*)",
+      "Bash(npx create-next-app:*)",
+      "Bash(npx create-next-app@latest:*)",
+      "Bash(printf:*)",
+      "Bash(npm install:*)",
+      "Bash(curl:*)",
+      "Bash(npx shadcn@latest init:*)",
+      "Bash(npx shadcn@latest add:*)"
+    ]
+  }
+}
